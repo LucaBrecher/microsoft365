@@ -1,0 +1,210 @@
+<?php
+$users = array(
+    'user1' => 'pass1',
+    'user2' => 'pass2',
+ 	'matthias' => 'pass',
+    // Weitere Benutzer hinzufügen...
+);
+
+// Benutzeranmeldung überprüfen
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if ($_SERVER['PHP_AUTH_USER'] && $_SERVER['PHP_AUTH_PW']) {
+        $username = $_SERVER['PHP_AUTH_USER'];
+        $password = $_SERVER['PHP_AUTH_PW'];
+
+        if (!array_key_exists($username, $users) || $users[$username] !== $password) {
+            header('WWW-Authenticate: Basic realm="Testzugriff"');
+            header('HTTP/1.0 401 Unauthorized');
+            echo 'Zugriff verweigert.';
+            exit();
+        }
+    } else {
+        header('WWW-Authenticate: Basic realm="Testzugriff"');
+        header('HTTP/1.0 401 Unauthorized');
+        echo 'Zugriff verweigert.';
+        exit();
+    }
+}
+
+// Beispiel: Fragenbank
+$questions = array(
+    array(
+        'question' => 'Was ist die Hauptstadt von Deutschland?',
+        'options' => array('Berlin', 'Madrid', 'Paris', 'Rom'),
+        'correct_answer' => 0 // Index der korrekten Antwort
+    ),
+    array(
+        'question' => 'Welches Element hat das chemische Symbol "H"?',
+        'options' => array('Helium', 'Hydrogen', 'Hafnium', 'Holmium'),
+        'correct_answer' => 1 // Index der korrekten Antwort
+    ),
+    array(
+        'question' => 'Wie viele Planeten hat unser Sonnensystem?',
+        'options' => array('7', '8', '9', '10'),
+        'correct_answer' => 1
+    ),
+    // ... Weitere Fragen hinzufügen ...
+    array(
+        'question' => 'Wer schrieb das Buch "Die Verwandlung"?',
+        'options' => array('Thomas Mann', 'Hermann Hesse', 'Franz Kafka', 'Johann Wolfgang von Goethe'),
+        'correct_answer' => 2
+    ),
+    array(
+        'question' => 'Wie lautet die chemische Formel für Wasser?',
+        'options' => array('H2O', 'CO2', 'CH4', 'NO3'),
+        'correct_answer' => 0
+    ),
+    // ... Weitere Fragen hinzufügen ...
+);
+$currentQuestion = isset($_GET['q']) ? intval($_GET['q']) : 0;
+$totalQuestions = count($questions);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_SERVER['PHP_AUTH_USER'];
+    $userAnswers = json_decode($_COOKIE['user_answers_' . $username] ?? '[]', true); // Aktuelle Antworten aus Cookie lesen
+    $userAnswers[$currentQuestion] = intval($_POST['answer_' . $currentQuestion]);
+    setcookie('user_answers_' . $username, json_encode($userAnswers), time() + 3600); // Antworten in Cookie speichern
+
+    // Prüfen, ob alle Fragen beantwortet wurden
+    $allQuestionsAnswered = true;
+    foreach ($questions as $index => $questionData) {
+        if (!isset($userAnswers[$index])) {
+            $allQuestionsAnswered = false;
+            break;
+        }
+    }
+
+    // Wenn alle Fragen beantwortet wurden, Antworten in Datei schreiben
+    if ($allQuestionsAnswered) {
+        $correctAnswers = 0;
+        $totalAnswers = count($questions);
+
+        foreach ($questions as $index => $questionData) {
+            $userAnswer = $userAnswers[$index];
+            $correctAnswer = $questionData['correct_answer'];
+
+            if ($userAnswer === $correctAnswer) {
+                $correctAnswers++;
+            }
+        }
+
+        $result = "Benutzer: $username" . PHP_EOL;
+        $result .= "Korrekte Antworten: $correctAnswers / $totalAnswers" . PHP_EOL . PHP_EOL;
+
+        foreach ($userAnswers as $index => $userAnswer) {
+            $question = $questions[$index]['question'];
+            $userChoice = $questions[$index]['options'][$userAnswer];
+            $correctChoice = $questions[$index]['options'][$questions[$index]['correct_answer']];
+            $result .= "Frage: $question" . PHP_EOL;
+            $result .= "Deine Antwort: $userChoice" . PHP_EOL;
+            $result .= "Korrekte Antwort: $correctChoice" . PHP_EOL . PHP_EOL;
+        }
+
+        // Datei öffnen und Ergebnis schreiben
+        $filename = 'answers.txt';
+        $file = fopen($filename, 'a');
+        fwrite($file, $result);
+        fclose($file);
+    }
+}
+
+$isLastQuestion = ($currentQuestion === $totalQuestions - 1);
+$isFirstQuestion = ($currentQuestion === 0);
+$isQuestionAnswered = isset($userAnswers[$currentQuestion]);
+
+$nextQuestionUrl = ($isLastQuestion || !$isQuestionAnswered) ? null : "index.php?q=" . ($currentQuestion + 1);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modellführerscheinprüfung</title>
+    <style>
+        body {
+    background-image: url('hintergrundbild.png'); /* Passe den Pfad zum Hintergrundbild an */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 50px auto;
+    max-width: 800px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modellführerscheinprüfung</h1>
+        <form method="POST" action="">
+            <p><?php echo $questions[$currentQuestion]['question']; ?></p>
+            <?php foreach ($questions[$currentQuestion]['options'] as $optionIndex => $option): ?>
+                <label>
+                    <input type="radio" name="answer_<?php echo $currentQuestion; ?>" value="<?php echo $optionIndex; ?>"
+                    <?php echo (isset($userAnswers[$currentQuestion]) && $userAnswers[$currentQuestion] === $optionIndex) ? 'checked' : ''; ?>>
+                    <?php echo $option; ?>
+                </label><br>
+            <?php endforeach; ?>
+            <input type="submit" value="Antwort speichern">
+        </form>
+
+        <?php if (!$isLastQuestion && $isQuestionAnswered): ?>
+            <a href="<?php echo $nextQuestionUrl; ?>">Nächste Frage</a>
+        <?php endif; ?>
+        
+        <?php if ($isLastQuestion && $isQuestionAnswered): ?>
+            <br><br>
+            <a href="finished.php">Test abgeben</a>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
