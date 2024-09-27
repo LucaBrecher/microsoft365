@@ -1,0 +1,119 @@
+{
+    "AccessControl": {
+        "AccessControlRulesProcessingEnabled": "false",
+        "AccessRestrictedToUserGroups": "false",
+        "UserGroupsBackend": "2917cdeb-ac13-4099-8715-20368254a367"
+    },
+    "Authentication": {
+        "Method": 0
+    },
+    "BuiltinDirectory": {
+        "NetworkObjects": {
+            "JsonStoreArray": [
+                {
+                    "HostAddress": "192.168.178.26",
+                    "Name": "Luca's Laptop",
+                    "ParentUid": "{fb6bca3d-c35e-57dd-9ec8-40f4ab6215ea}",
+                    "Type": 3,
+                    "Uid": "{41785deb-9e0e-46cf-a154-6ecebd885b7e}"
+                },
+                {
+                    "Name": "Brecher",
+                    "Type": 2,
+                    "Uid": "{941d6ddb-1f54-444c-a8ee-773cdf5b62d0}"
+                },
+                {
+                    "HostAddress": "192.168.178.42",
+                    "MacAddress": "9A:DA:C4:30:19:0F",
+                    "Name": "Laptop von Luca",
+                    "ParentUid": "{941d6ddb-1f54-444c-a8ee-773cdf5b62d0}",
+                    "Type": 3,
+                    "Uid": "{43791393-5b26-4713-9f73-14c23f53f203}"
+                },
+                {
+                    "HostAddress": "192.168.178.20",
+                    "Name": "Laptop von Helene",
+                    "ParentUid": "{941d6ddb-1f54-444c-a8ee-773cdf5b62d0}",
+                    "Type": 3,
+                    "Uid": "{df16d7fe-aa4f-4a99-b275-feee44a39493}"
+                },
+                {
+                    "HostAddress": "192.168.178.34",
+                    "Name": "gemeinsamer PC",
+                    "ParentUid": "{941d6ddb-1f54-444c-a8ee-773cdf5b62d0}",
+                    "Type": 3,
+                    "Uid": "{3cdee2e2-e8d0-4acf-b450-baf819fcfda4}"
+                },
+                {
+                    "HostAddress": "192.168.178.54",
+                    "MacAddress": "9A:DA:C4:29:FB:13",
+                    "Name": "Laptop von Oma",
+                    "ParentUid": "{941d6ddb-1f54-444c-a8ee-773cdf5b62d0}",
+                    "Type": 3,
+                    "Uid": "{53cec82d-5223-4c14-be2f-16eaac2085ce}"
+                }
+            ]
+        }
+    },
+    "Core": {
+        "ApplicationVersion": 9,
+        "InstallationID": "fa690880-06b2-459b-a057-5e32af102236",
+        "PluginVersions": {
+            "JsonStoreObject": {
+                "{14bacaaa-ebe5-449c-b881-5b382f952571}": "1.1",
+                "{1b08265b-348f-4978-acaa-45d4f6b90bd9}": "1.1",
+                "{1baa01e0-02d6-4494-a766-788f5b225991}": "1.1",
+                "{2917cdeb-ac13-4099-8715-20368254a367}": "1.1",
+                "{2ad98ccb-e9a5-43ef-8c4c-876ac5efbcb1}": "1.1",
+                "{387a0c43-1355-4ff6-9e1f-d098e9ce5127}": "1.1",
+                "{39d7a07f-94db-4912-aa1a-c4df8aee3879}": "1.1",
+                "{4122e8ca-b617-4e36-b851-8e050ed2d82e}": "1.2",
+                "{4790bad8-4c56-40d5-8361-099a68f0c24b}": "1.1",
+                "{67dfc1c1-8f37-4539-a298-16e74e34fd8b}": "1.1",
+                "{6f0a491e-c1c6-4338-8244-f823b0bf8670}": "1.2",
+                "{80580500-2e59-4297-9e35-e53959b028cd}": "1.2",
+                "{8ae6668b-9c12-4b29-9bfc-ff89f6604164}": "1.1",
+                "{a54ee018-42bf-4569-90c7-0d8470125ccf}": "2.0",
+                "{d4bb9c42-9eef-4ecb-8dd5-dfd84b355481}": "1.0",
+                "{e11bee03-b99c-465c-bf90-7e5339b83f6b}": "1.0",
+                "{ee322521-f4fb-482d-b082-82a79003afa7}": "1.1",
+                "{f626f759-7691-45c0-bd4a-37171d98d219}": "1.0"
+            }
+        }
+    },
+    "LDAP": {
+        "ComputerLocationAttribute": "",
+        "ComputerLocationsByAttribute": "false",
+        "ComputerLocationsByContainer": "false",
+        "LocationNameAttribute": "",
+        "UserLoginNameAttribute": ""
+    },
+    "Master": {
+        "AllowAddingHiddenLocations": "false",
+        "AutoAdjustMonitoringIconSize": "false",
+        "AutoOpenComputerSelectPanel": "false",
+        "AutoSelectCurrentLocation": "false",
+        "ComputerMonitoringImageQuality": 0,
+        "ComputerMonitoringThumbnailSpacing": 4,
+        "ConfirmUnsafeActions": "false",
+        "HideComputerFilter": "false",
+        "HideEmptyLocations": "false",
+        "HideLocalComputer": "false",
+        "ShowCurrentLocationOnly": "false"
+    },
+    "Network": {
+        "FirewallExceptionEnabled": "1",
+        "VeyonServerPort": 11100
+    },
+    "Service": {
+        "FailedAuthenticationNotifications": "false",
+        "SoftwareSASEnabled": "0"
+    },
+    "UserGroups": {
+        "Backend": "2917cdeb-ac13-4099-8715-20368254a367",
+        "UseDomainUserGroups": "false"
+    },
+    "Windows": {
+        "SoftwareSASEnabled": "1"
+    }
+}
